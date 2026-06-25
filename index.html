@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="th" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Portfolio | Web Developer</title>
+    <!-- โหลด Tailwind CSS ผ่าน CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- โหลด FontAwesome สำหรับไอคอน -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- โหลด Google Fonts (Kanit สำหรับภาษาไทย) -->
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Kanit', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#3b82f6', // Blue-500
+                        dark: '#0f172a',    // Slate-900
+                        darker: '#020617',  // Slate-950
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* ตั้งค่าพื้นฐาน */
+        body {
+            font-family: 'Kanit', sans-serif;
+            background-color: #0f172a;
+            color: #f8fafc;
+        }
+
+        /* เอฟเฟกต์พิมพ์ดีด (Typewriter Cursor) */
+        .cursor::after {
+            content: '|';
+            animation: blink 1s step-start infinite;
+        }
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+
+        /* คลาสสำหรับการทำ Animation เมื่อเลื่อนหน้าจอมาถึง (Scroll Reveal) */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* แต่ง Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #020617;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569;
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-primary selection:text-white flex flex-col min-h-screen">
+
+    <!-- Navbar -->
+    <nav class="fixed w-full z-50 bg-dark/90 backdrop-blur-sm border-b border-slate-800 transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- โลโก้ -->
+                <div class="flex-shrink-0">
+                    <a href="#home" class="text-2xl font-bold text-white tracking-wider hover:text-primary transition-colors">
+                        PORT<span class="text-primary">FOLIO</span>
+                    </a>
+                </div>
+                
+                <!-- เมนูเดสก์ท็อป -->
+                <div class="hidden md:flex space-x-8">
+                    <a href="#home" class="text-gray-300 hover:text-white transition-colors">หน้าแรก</a>
+                    <a href="#about" class="text-gray-300 hover:text-white transition-colors">เกี่ยวกับ</a>
+                    <a href="#skills" class="text-gray-300 hover:text-white transition-colors">ทักษะ</a>
+                    <a href="#projects" class="text-gray-300 hover:text-white transition-colors">ผลงาน</a>
+                    <a href="#contact" class="text-gray-300 hover:text-white transition-colors">ติดต่อ</a>
+                </div>
+
+                <!-- ปุ่มเมนูมือถือ -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-gray-300 hover:text-white focus:outline-none">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- เมนูมือถือ (ซ่อนเริ่มต้น) -->
+        <div id="mobile-menu" class="hidden md:hidden bg-darker border-b border-slate-800">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#home" class="block px-3 py-2 text-base font-medium text-gray-300 hover:text-white hover:bg-slate-800 rounded-md">หน้าแรก</a>
+                <a href="#about" class="block px-3 py-2 text-base font-medium text-gray-300 hover:text-white hover:bg-slate-800 rounded-md">เกี่ยวกับ</a>
+                <a href="#skills" class="block px-3 py-2 text-base font-medium text-gray-300 hover:text-white hover:bg-slate-800 rounded-md">ทักษะ</a>
+                <a href="#projects" class="block px-3 py-2 text-base font-medium text-gray-300 hover:text-white hover:bg-slate-800 rounded-md">ผลงาน</a>
+                <a href="#contact" class="block px-3 py-2 text-base font-medium text-gray-300 hover:text-white hover:bg-slate-800 rounded-md">ติดต่อ</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- หน้าแรก (Hero Section) -->
+    <section id="home" class="min-h-screen flex items-center pt-16 bg-gradient-to-b from-darker to-dark">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-12">
+                
+                <!-- ข้อความแนะนำตัว -->
+                <div class="w-full md:w-1/2 text-center md:text-left reveal">
+                    <p class="text-primary font-medium text-lg mb-2">สวัสดีครับ/ค่ะ, ยินดีต้อนรับสู่พื้นที่ของฉัน</p>
+                    <h1 class="text-4xl md:text-6xl font-bold text-white mb-4 leading-tight">
+                        ฉันชื่อ <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-emerald-400">[ชื่อของคุณ]</span>
+                    </h1>
+                    <h2 class="text-2xl md:text-3xl font-semibold text-gray-300 mb-6 h-10">
+                        ฉันคือ <span id="typewriter" class="text-primary cursor"></span>
+                    </h2>
+                    <p class="text-gray-400 text-lg mb-8 max-w-lg mx-auto md:mx-0">
+                        ผู้หลงใหลในการพัฒนาเว็บไซต์และสร้างสรรค์ประสบการณ์การใช้งานที่ดีเยี่ยมให้กับผู้ใช้ พร้อมเรียนรู้เทคโนโลยีใหม่ๆ อยู่เสมอ
+                    </p>
+                    <div class="flex flex-wrap justify-center md:justify-start gap-4">
+                        <a href="#contact" class="px-8 py-3 bg-primary hover:bg-blue-600 text-white font-medium rounded-full shadow-lg shadow-blue-500/30 transition-all transform hover:-translate-y-1">จ้างงานฉัน</a>
+                        <a href="#projects" class="px-8 py-3 bg-transparent border border-gray-500 hover:border-white text-gray-300 hover:text-white font-medium rounded-full transition-all">ดูผลงาน</a>
+                    </div>
+                </div>
+
+                <!-- รูปโปรไฟล์ -->
+                <div class="w-full md:w-1/2 flex justify-center reveal delay-200">
+                    <div class="relative w-64 h-64 md:w-80 md:h-80">
+                        <!-- กรอบตกแต่งด้านหลัง -->
+                        <div class="absolute inset-0 bg-gradient-to-tr from-blue-500 to-emerald-400 rounded-full blur-2xl opacity-40 animate-pulse"></div>
+                        <!-- รูปภาพจริง (เปลี่ยน URL เป็นรูปของคุณ) -->
+                        <div class="relative w-full h-full rounded-full border-4 border-slate-800 overflow-hidden bg-slate-800 flex items-center justify-center">
+                            <!-- Placeholder Icon ถ้ายังไม่มีรูป -->
+                            <i class="fas fa-user-astronaut text-7xl text-gray-500"></i>
+                            <!-- <img src="URL_รูปภาพของคุณ.jpg" alt="Profile" class="w-full h-full object-cover"> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- เกี่ยวกับ (About Section) -->
+    <section id="about" class="py-20 bg-dark">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 reveal">
+                <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">เกี่ยวกับ<span class="text-primary">ฉัน</span></h2>
+                <div class="w-20 h-1 bg-primary mx-auto rounded-full"></div>
+            </div>
+
+            <div class="flex flex-col md:flex-row gap-12 items-center">
+                <div class="w-full md:w-1/2 reveal">
+                    <!-- รูปภาพประกอบ หรือ โค้ดตกแต่ง -->
+                    <div class="rounded-2xl overflow-hidden shadow-2xl border border-slate-800 bg-slate-900 p-6">
+                        <div class="flex gap-2 mb-4">
+                            <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                            <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                            <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                        </div>
+                        <pre class="text-sm text-green-400 overflow-x-auto"><code>const developer = {
+    name: '[ชื่อของคุณ]',
+    role: 'Frontend Developer',
+    location: 'Bangkok, Thailand',
+    passion: ['Coding', 'Design', 'Learning'],
+    sayHi: function() {
+        return "Hello World!";
+    }
+};</code></pre>
+                    </div>
+                </div>
+                
+                <div class="w-full md:w-1/2 reveal delay-200">
+                    <h3 class="text-2xl font-semibold text-white mb-4">ทำความรู้จักกันสักนิด</h3>
+                    <p class="text-gray-400 leading-relaxed mb-6">
+                        ฉันเป็นนักพัฒนาเว็บไซต์ที่มีความมุ่งมั่น สนใจในการเขียนโค้ดเพื่อแก้ปัญหาและสร้างสรรค์ผลงานที่จับต้องได้ ฉันมีพื้นฐานด้าน [ระบุสาขาที่เรียนหรือประสบการณ์สั้นๆ] และชอบเรียนรู้เครื่องมือใหม่ๆ ในวงการ Tech อยู่เสมอ
+                    </p>
+                    <p class="text-gray-400 leading-relaxed mb-8">
+                        เป้าหมายของฉันคือการเป็นส่วนหนึ่งในทีมที่ยอดเยี่ยม เพื่อร่วมกันพัฒนาผลิตภัณฑ์ที่มีคุณค่าและส่งมอบประสบการณ์ที่น่าประทับใจให้กับผู้ใช้งาน
+                    </p>
+                    
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="bg-slate-800 p-4 rounded-lg border border-slate-700">
+                            <h4 class="text-primary font-bold text-xl">1+</h4>
+                            <p class="text-gray-400 text-sm">ปีแห่งประสบการณ์</p>
+                        </div>
+                        <div class="bg-slate-800 p-4 rounded-lg border border-slate-700">
+                            <h4 class="text-primary font-bold text-xl">10+</h4>
+                            <p class="text-gray-400 text-sm">โปรเจกต์ที่ทำเสร็จ</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ทักษะ (Skills Section) -->
+    <section id="skills" class="py-20 bg-darker">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 reveal">
+                <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">ทักษะ<span class="text-primary">ความสามารถ</span></h2>
+                <div class="w-20 h-1 bg-primary mx-auto rounded-full"></div>
+            </div>
+
+            <!-- กล่องทักษะ -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 reveal delay-200">
+                <!-- Skill 1 -->
+                <div class="bg-slate-800 p-6 rounded-xl border border-slate-700 text-center hover:border-primary transition-colors group">
+                    <i class="fab fa-html5 text-5xl text-orange-500 mb-4 group-hover:scale-110 transition-transform"></i>
+                    <h3 class="text-white font-medium">HTML5</h3>
+                </div>
+                <!-- Skill 2 -->
+                <div class="bg-slate-800 p-6 rounded-xl border border-slate-700 text-center hover:border-primary transition-colors group">
+                    <i class="fab fa-css3-alt text-5xl text-blue-500 mb-4 group-hover:scale-110 transition-transform"></i>
+                    <h3 class="text-white font-medium">CSS3 & Tailwind</h3>
+                </div>
+                <!-- Skill 3 -->
+                <div class="bg-slate-800 p-6 rounded-xl border border-slate-700 text-center hover:border-primary transition-colors group">
+                    <i class="fab fa-js text-5xl text-yellow-400 mb-4 group-hover:scale-110 transition-transform"></i>
+                    <h3 class="text-white font-medium">JavaScript</h3>
+                </div>
+                <!-- Skill 4 -->
+                <div class="bg-slate-800 p-6 rounded-xl border border-slate-700 text-center hover:border-primary transition-colors group">
+                    <i class="fab fa-react text-5xl text-cyan-400 mb-4 group-hover:scale-110 transition-transform"></i>
+                    <h3 class="text-white font-medium">React.js</h3>
+                </div>
+                <!-- Skill 5 -->
+                <div class="bg-slate-800 p-6 rounded-xl border border-slate-700 text-center hover:border-primary transition-colors group">
+                    <i class="fab fa-node-js text-5xl text-green-500 mb-4 group-hover:scale-110 transition-transform"></i>
+                    <h3 class="text-white font-medium">Node.js</h3>
+                </div>
+                <!-- Skill 6 -->
+                <div class="bg-slate-800 p-6 rounded-xl border border-slate-700 text-center hover:border-primary transition-colors group">
+                    <i class="fas fa-database text-5xl text-blue-400 mb-4 group-hover:scale-110 transition-transform"></i>
+                    <h3 class="text-white font-medium">SQL / NoSQL</h3>
+                </div>
+                <!-- Skill 7 -->
+                <div class="bg-slate-800 p-6 rounded-xl border border-slate-700 text-center hover:border-primary transition-colors group">
+                    <i class="fab fa-git-alt text-5xl text-red-500 mb-4 group-hover:scale-110 transition-transform"></i>
+                    <h3 class="text-white font-medium">Git & GitHub</h3>
+                </div>
+                <!-- Skill 8 -->
+                <div class="bg-slate-800 p-6 rounded-xl border border-slate-700 text-center hover:border-primary transition-colors group">
+                    <i class="fas fa-mobile-alt text-5xl text-gray-300 mb-4 group-hover:scale-110 transition-transform"></i>
+                    <h3 class="text-white font-medium">Responsive Design</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ผลงาน (Projects Section) -->
+    <section id="projects" class="py-20 bg-dark">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 reveal">
+                <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">ผลงาน<span class="text-primary">ของฉัน</span></h2>
+                <div class="w-20 h-1 bg-primary mx-auto rounded-full"></div>
+                <p class="text-gray-400 mt-4">รวมโปรเจกต์ที่น่าสนใจที่ฉันได้พัฒนาขึ้น</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <!-- Project 1 -->
+                <div class="bg-slate-800 rounded-xl overflow-hidden border border-slate-700 group reveal">
+                    <div class="h-48 bg-slate-700 flex items-center justify-center relative overflow-hidden">
+                        <!-- รูปจำลองโปรเจกต์ (สามารถเปลี่ยน src เป็นรูปผลงานจริงได้) -->
+                        <div class="absolute inset-0 bg-gradient-to-br from-blue-600 to-purple-600 opacity-80 group-hover:scale-110 transition-transform duration-500"></div>
+                        <i class="fas fa-shopping-cart text-5xl text-white relative z-10"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-white mb-2">E-Commerce Website</h3>
+                        <p class="text-gray-400 mb-4 text-sm line-clamp-3">
+                            ระบบร้านค้าออนไลน์จำลอง รองรับระบบตะกร้าสินค้าและการคำนวณราคา มีระบบหลังบ้านเบื้องต้น
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-2 py-1 bg-slate-900 text-xs text-gray-300 rounded">HTML/CSS</span>
+                            <span class="px-2 py-1 bg-slate-900 text-xs text-gray-300 rounded">JavaScript</span>
+                        </div>
+                        <div class="flex justify-between items-center mt-4 pt-4 border-t border-slate-700">
+                            <a href="#" class="text-gray-400 hover:text-primary transition-colors"><i class="fab fa-github text-xl"></i></a>
+                            <a href="#" class="text-primary hover:text-blue-400 text-sm font-medium">ดูเว็บไซต์ <i class="fas fa-arrow-right ml-1"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 2 -->
+                <div class="bg-slate-800 rounded-xl overflow-hidden border border-slate-700 group reveal delay-100">
+                    <div class="h-48 bg-slate-700 flex items-center justify-center relative overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-br from-emerald-500 to-teal-700 opacity-80 group-hover:scale-110 transition-transform duration-500"></div>
+                        <i class="fas fa-tasks text-5xl text-white relative z-10"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-white mb-2">Task Management App</h3>
+                        <p class="text-gray-400 mb-4 text-sm line-clamp-3">
+                            แอปพลิเคชันจัดการงานแบบ Kanban board สามารถลากวางงาน จัดลำดับความสำคัญ และบันทึกข้อมูลลง LocalStorage
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-2 py-1 bg-slate-900 text-xs text-gray-300 rounded">React</span>
+                            <span class="px-2 py-1 bg-slate-900 text-xs text-gray-300 rounded">Tailwind</span>
+                        </div>
+                        <div class="flex justify-between items-center mt-4 pt-4 border-t border-slate-700">
+                            <a href="#" class="text-gray-400 hover:text-primary transition-colors"><i class="fab fa-github text-xl"></i></a>
+                            <a href="#" class="text-primary hover:text-blue-400 text-sm font-medium">ดูเว็บไซต์ <i class="fas fa-arrow-right ml-1"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 3 -->
+                <div class="bg-slate-800 rounded-xl overflow-hidden border border-slate-700 group reveal delay-200">
+                    <div class="h-48 bg-slate-700 flex items-center justify-center relative overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-br from-orange-500 to-red-600 opacity-80 group-hover:scale-110 transition-transform duration-500"></div>
+                        <i class="fas fa-cloud-sun text-5xl text-white relative z-10"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-white mb-2">Weather Dashboard</h3>
+                        <p class="text-gray-400 mb-4 text-sm line-clamp-3">
+                            เว็บไซต์ตรวจสอบสภาพอากาศแบบเรียลไทม์ โดยดึงข้อมูลจาก OpenWeather API แสดงผลสวยงามทั้งกลางวันและกลางคืน
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-2 py-1 bg-slate-900 text-xs text-gray-300 rounded">JavaScript</span>
+                            <span class="px-2 py-1 bg-slate-900 text-xs text-gray-300 rounded">API</span>
+                        </div>
+                        <div class="flex justify-between items-center mt-4 pt-4 border-t border-slate-700">
+                            <a href="#" class="text-gray-400 hover:text-primary transition-colors"><i class="fab fa-github text-xl"></i></a>
+                            <a href="#" class="text-primary hover:text-blue-400 text-sm font-medium">ดูเว็บไซต์ <i class="fas fa-arrow-right ml-1"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ติดต่อ (Contact Section) -->
+    <section id="contact" class="py-20 bg-darker">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 reveal">
+                <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">ช่องทาง<span class="text-primary">ติดต่อ</span></h2>
+                <div class="w-20 h-1 bg-primary mx-auto rounded-full"></div>
+            </div>
+
+            <div class="flex flex-col md:flex-row gap-12">
+                <!-- ข้อมูลการติดต่อ -->
+                <div class="w-full md:w-1/3 reveal">
+                    <h3 class="text-2xl font-semibold text-white mb-6">พูดคุยกันได้เลย!</h3>
+                    <p class="text-gray-400 mb-8">หากคุณสนใจร่วมงาน หรือมีโปรเจกต์ที่อยากให้ฉันช่วยพัฒนา สามารถติดต่อมาได้ตามช่องทางด้านล่างนี้ครับ/ค่ะ</p>
+                    
+                    <div class="space-y-4">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 bg-slate-800 rounded-full flex items-center justify-center text-primary">
+                                <i class="fas fa-envelope text-xl"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-500">อีเมล</p>
+                                <p class="text-white">your.email@example.com</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 bg-slate-800 rounded-full flex items-center justify-center text-primary">
+                                <i class="fas fa-phone-alt text-xl"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-500">เบอร์โทรศัพท์</p>
+                                <p class="text-white">08x-xxx-xxxx</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 bg-slate-800 rounded-full flex items-center justify-center text-primary">
+                                <i class="fas fa-map-marker-alt text-xl"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-500">สถานที่</p>
+                                <p class="text-white">กรุงเทพมหานคร, ประเทศไทย</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Social Links -->
+                    <div class="flex gap-4 mt-8">
+                        <a href="#" class="w-10 h-10 bg-slate-800 hover:bg-primary rounded-full flex items-center justify-center text-white transition-colors">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-slate-800 hover:bg-primary rounded-full flex items-center justify-center text-white transition-colors">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-slate-800 hover:bg-primary rounded-full flex items-center justify-center text-white transition-colors">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- ฟอร์มติดต่อ -->
+                <div class="w-full md:w-2/3 reveal delay-200">
+                    <form id="contactForm" class="bg-slate-800 p-8 rounded-2xl border border-slate-700">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                            <div>
+                                <label for="name" class="block text-sm font-medium text-gray-400 mb-2">ชื่อของคุณ</label>
+                                <input type="text" id="name" required class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors">
+                            </div>
+                            <div>
+                                <label for="email" class="block text-sm font-medium text-gray-400 mb-2">อีเมลของคุณ</label>
+                                <input type="email" id="email" required class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors">
+                            </div>
+                        </div>
+                        <div class="mb-6">
+                            <label for="subject" class="block text-sm font-medium text-gray-400 mb-2">หัวข้อ</label>
+                            <input type="text" id="subject" required class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors">
+                        </div>
+                        <div class="mb-6">
+                            <label for="message" class="block text-sm font-medium text-gray-400 mb-2">ข้อความ</label>
+                            <textarea id="message" rows="4" required class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors resize-none"></textarea>
+                        </div>
+                        <button type="submit" class="w-full bg-primary hover:bg-blue-600 text-white font-medium py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2">
+                            <span>ส่งข้อความ</span>
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 py-8 border-t border-slate-800 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <p class="text-gray-500 text-sm">
+                &copy; <span id="year"></span> <span class="text-gray-300 font-medium">[ชื่อของคุณ]</span>. All rights reserved.
+            </p>
+            <p class="text-gray-600 text-xs mt-2">
+                Built with HTML, Tailwind CSS & JavaScript. Deployed on GitHub Pages.
+            </p>
+        </div>
+    </footer>
+
+    <!-- Custom Modal สำหรับแสดงแจ้งเตือนเมื่อส่งฟอร์มสำเร็จ -->
+    <div id="successModal" class="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm hidden opacity-0 transition-opacity duration-300">
+        <div class="bg-slate-800 border border-slate-700 p-8 rounded-2xl max-w-sm w-full mx-4 text-center transform scale-95 transition-transform duration-300">
+            <div class="w-16 h-16 bg-green-500/20 text-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                <i class="fas fa-check text-2xl"></i>
+            </div>
+            <h3 class="text-xl font-bold text-white mb-2">ส่งข้อความสำเร็จ!</h3>
+            <p class="text-gray-400 mb-6 text-sm">ขอบคุณที่ติดต่อมาครับ/ค่ะ ฉันจะรีบตอบกลับให้เร็วที่สุด</p>
+            <button onclick="closeModal()" class="w-full bg-slate-700 hover:bg-slate-600 text-white font-medium py-2 px-4 rounded-lg transition-colors">
+                ปิดหน้าต่าง
+            </button>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        // 1. จัดการปีปัจจุบันใน Footer
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // 2. จัดการ Mobile Menu Toggle
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+        const mobileLinks = menu.querySelectorAll('a');
+
+        btn.addEventListener('click', () => {
+            menu.classList.toggle('hidden');
+        });
+
+        // ปิดเมนูเมื่อคลิกลิงก์ (สำหรับมือถือ)
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                menu.classList.add('hidden');
+            });
+        });
+
+        // 3. ปรับพื้นหลัง Navbar เมื่อเลื่อนหน้าจอ
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('shadow-lg');
+            } else {
+                navbar.classList.remove('shadow-lg');
+            }
+        });
+
+        // 4. Typewriter Effect
+        const words = ["นักพัฒนาเว็บไซต์", "Frontend Developer", "Web Enthusiast"];
+        let i = 0;
+        let timer;
+
+        function typingEffect() {
+            let word = words[i].split("");
+            var loopTyping = function() {
+                if (word.length > 0) {
+                    document.getElementById('typewriter').innerHTML += word.shift();
+                } else {
+                    setTimeout(deletingEffect, 2000);
+                    return false;
+                }
+                timer = setTimeout(loopTyping, 100);
+            };
+            loopTyping();
+        }
+
+        function deletingEffect() {
+            let word = words[i].split("");
+            var loopDeleting = function() {
+                if (word.length > 0) {
+                    word.pop();
+                    document.getElementById('typewriter').innerHTML = word.join("");
+                } else {
+                    if (words.length > (i + 1)) {
+                        i++;
+                    } else {
+                        i = 0;
+                    }
+                    setTimeout(typingEffect, 500);
+                    return false;
+                }
+                timer = setTimeout(loopDeleting, 50);
+            };
+            loopDeleting();
+        }
+        
+        // เริ่มต้น Typewriter effect
+        setTimeout(typingEffect, 1000);
+
+        // 5. Scroll Reveal Animation (ใช้ Intersection Observer)
+        const revealElements = document.querySelectorAll('.reveal');
+        
+        const revealCallback = (entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    // ยกเลิกการ observe หลังจากแสดงผลแล้วรอบนึง
+                    observer.unobserve(entry.target);
+                }
+            });
+        };
+
+        const revealOptions = {
+            threshold: 0.15, // ให้เห็น 15% ก่อนถึงจะทำงาน
+            rootMargin: "0px 0px -50px 0px"
+        };
+
+        const revealObserver = new IntersectionObserver(revealCallback, revealOptions);
+
+        revealElements.forEach(el => {
+            revealObserver.observe(el);
+        });
+
+        // 6. จัดการฟอร์มติดต่อ (จำลองการทำงานแทน Alert)
+        const contactForm = document.getElementById('contactForm');
+        const modal = document.getElementById('successModal');
+        const modalContent = modal.querySelector('div');
+
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault(); // ป้องกันการรีเฟรชหน้า
+            
+            // แสดง Modal
+            modal.classList.remove('hidden');
+            // ทำ delay เล็กน้อยเพื่อให้ transition ทำงาน
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                modalContent.classList.remove('scale-95');
+                modalContent.classList.add('scale-100');
+            }, 10);
+
+            // เคลียร์ค่าในฟอร์ม
+            contactForm.reset();
+        });
+
+        // ฟังก์ชันปิด Modal
+        window.closeModal = function() {
+            modal.classList.add('opacity-0');
+            modalContent.classList.remove('scale-100');
+            modalContent.classList.add('scale-95');
+            
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300); // รอให้ transition จบ
+        };
+
+        // ปิด Modal เมื่อคลิกพื้นที่ว่าง
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>
